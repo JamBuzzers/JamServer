@@ -23,13 +23,13 @@ const io = socketIO(server);
 const manager = new GameManager(io);
 
 io.on('connection', (socket) => {
-  utility.write('Client '+socket.id+' connected');
+  utility.write(io,'Client '+socket.id+' connected');
   socket.on('login', (token)=>{
-    utility.write('Client '+socket.id+' login');
+    utility.write(io, 'Client '+socket.id+' login');
     manager.addSocket(socket, token);
   });
   socket.on('disconnect', () => {
-    utility.write('Client '+socket.id+' disconnected');
+    utility.write(io,'Client '+socket.id+' disconnected');
     utility.logout(socket.id);
   });
 

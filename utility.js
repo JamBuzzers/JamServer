@@ -1,4 +1,6 @@
 var request = require('request');
+const express = require('express');
+const socketIO = require('socket.io');
 var admin = require('firebase-admin');
 var serviceAccount = require('./what-s-that-jam-firebase-adminsdk-4pblj-97afb9e634.json');
 
@@ -98,5 +100,5 @@ exports.logout = function(socketid){
 }
 exports.write = function(io, string){
   console.log(string);
-  io.send(string);
+  io.emit('message',string);
 }
