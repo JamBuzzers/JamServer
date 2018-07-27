@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1031134023209",
+    "firebase_url": "https://what-s-that-jam.firebaseio.com",
+    "project_id": "what-s-that-jam",
+    "storage_bucket": "what-s-that-jam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031134023209:android:0fef606e4789058f",
+        "android_client_info": {
+          "package_name": "com.jambuzzers.whatsthatjam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031134023209-37a02jv5v1k7ue90ucju9tl32aenvjce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0A0d-LW7SLvD1p9L0WXLv5eEhWlweSgw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

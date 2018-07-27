@@ -7,8 +7,14 @@
       socket.on('message', function(string){
         console.log(string);
       });
-      socket.on('play', function(){
-        console.log('play');
+      socket.on('play', function(song){
+        console.log('playing '+song);
+      });
+      socket.on('resume', function(){
+        console.log('resume');
+      });
+      socket.on('pause', function(){
+        console.log('pause');
       });
 
     </script>
