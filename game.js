@@ -3,9 +3,10 @@ var utility = require("./utility.js");
 var distance = require("./distance");
 class Game {
   constructor(name,io, invitees) {
-    utility.write(io,'Game '+name+' made');
+    utility.write(io,'Game '+name+' is being made');
 
     this.invitees = {};
+
     for(var i = 0; i < invitees.length; i++)
     {
       utility.getSocketId(invitees[i],function(socketid){
@@ -17,6 +18,7 @@ class Game {
     this.io = io;
     this.songs = utility.getPlaylist();
     this.numPlayers = 0;
+    utility.write(io,'Game '+name+' made');
   }
   addUser(socket){
     if(this.invitees[socket.id]){

@@ -18,6 +18,7 @@ class GameManager{
             for(var i = 0; i < userlist.length; i++){
                 utility.write(this.io,userlist[i]+' invited ');
                 utility.getSocketId(userlist[i],function(socketid){
+                    utility.write(this.io, "sending invite to "+socketid);
                     this.io.to(socketid).emit('invite', this.gameCounter);
                 })  
             }
