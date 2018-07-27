@@ -3,7 +3,7 @@ var utility = require("./utility.js");
 var distance = require("./distance");
 class Game {
   constructor(name,io, invitees) {
-    utility.write(io,'Game '+i+' made');
+    utility.write(io,'Game '+name+' made');
 
     this.invitees = {};
     for(i = 0; i < invitees.length; i++)
