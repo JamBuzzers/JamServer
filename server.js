@@ -2,11 +2,11 @@
 
 
 const GameManager = require('./GameManager');
+const utility = require('./utility');
 const express = require('express');
 const socketIO = require('socket.io');
 const request = require('request');
 const path = require('path');
-var distance = require("./distance.js");
 
 
 const PORT = process.env.PORT || 3000;
@@ -24,11 +24,17 @@ const manager = new GameManager(io);
 
 io.on('connection', (socket) => {
   console.log('Client '+socket.id+' connected');
+  io.send('Client '+socket.id+' connected');
 
   socket.on('login', (token)=>{
+    io.send('Client '+socket.id+' login');
     manager.addSocket(socket, token);
   });
-  socket.on('disconnect', () => console.log('Client '+socket.id+' disconnected'));
+  socket.on('disconnect', () => {
+    io.send('Client '+socket.id+' disconnected');
+    console.log('Client '+socket.id+' disconnected');
+    utility.logout(socket.id);
+  });
 
 });
 

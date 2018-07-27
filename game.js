@@ -21,13 +21,21 @@ class Game {
     this.invitees[socket.id] = true;
     this.numPlayers++;
     socket.join(this.name);
+    this.io.send('Client '+socket.id+' joins game '+ this.name);
+
     socket.on('resume', ()=>{
+      this.io.send('Client '+socket.id+' resumes ');
       this.io.to(this.name).emit('resume');
     });
+
     socket.on('pause', ()=>{
+      this.io.send('Client '+socket.id+' pauses ');
       this.io.to(this.name).emit('pause');
     });
+
     socket.on('submit',(answer)=>{
+      this.io.send('Client '+socket.id+' submits '+answer);
+
       utility.getTitle(function(title){
         var d = distance.getEditDistance(answer,title);
         if(d > title.length / 5)
@@ -41,9 +49,9 @@ class Game {
       })
     });
     if(this.numPlayers == Object.keys(this.invitees).length)
-      {
-        this.io.to(this.name).emit('play',this.songs[this.song_position]);
-      }
+    {
+      this.io.to(this.name).emit('play',this.songs[this.song_position]);
+    }
   }
   
   nextSong(){

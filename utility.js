@@ -59,12 +59,12 @@ exports.saveuser = function(token, socket_id){
     docRef.set({
       token:token,
       name:name,
-      socket_id:socket_id
+      socket_id:socket_id,
+      active:true
     });
   })
 }
 exports.getSocketId = function(userid, callback){
-
     var userRef = db.collection('users').doc(userid);
     var getDoc = userRef.get()
     .then(doc => {
@@ -77,4 +77,22 @@ exports.getSocketId = function(userid, callback){
     .catch(err => {
       console.log('Error getting document', err);
     });
+}
+exports.saveGame = function(id, users){
+  var docRef = db.collection('games').doc(id);
+    docRef.set({
+      players:playerss
+    });
+}
+exports.logout = function(socketid){
+  var userRef = db.collection('users')
+  var user = userRef.where('socket_id','==',socketid).get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      doc.update({ active: false });
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });;
 }

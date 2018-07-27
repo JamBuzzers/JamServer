@@ -1,11 +1,14 @@
 <html>
   <body>
     <p id='server-time'></p>
+    
+    <div id ='placeholder'></div>
     <script src="/socket.io/socket.io.js"></script>
+   
     <script>
       var socket = io();
       socket.on('message', function(string){
-        console.log(string);
+        write(string);
       });
       socket.on('play', function(song){
         console.log('playing '+song);
@@ -16,7 +19,15 @@
       socket.on('pause', function(){
         console.log('pause');
       });
-
+    </script>
+    <script>
+    function write (string){
+      console.log(string);
+        var para = document.createElement("P");                       // Create a <p> node
+        var t = document.createTextNode(string);      // Create a text node
+        para.appendChild(t);                                          // Append the text to <p>
+        document.getElementById('placeholder').appendChild(para);   
+    }
     </script>
   </body>
 </html>
