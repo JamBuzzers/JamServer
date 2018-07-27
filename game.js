@@ -6,7 +6,7 @@ class Game {
     utility.write(io,'Game '+name+' made');
 
     this.invitees = {};
-    for(i = 0; i < invitees.length; i++)
+    for(var i = 0; i < invitees.length; i++)
     {
       utility.getSocketId(invitees[i],function(socketid){
         this.invitees[socketid] = false;
