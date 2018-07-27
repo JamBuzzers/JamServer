@@ -45,10 +45,10 @@ class Game {
         if(d > title.length / 5)
         {
             socket.emit("correct");
-            nextSong();
+            this.nextSong();
         }
         else{
-          resume();
+          this.resume();
         }
       })
     });
@@ -59,7 +59,7 @@ class Game {
   }
   
   nextSong(){
-    this.io.to(this.name).emit('play',songs[++this.song_position]);
+    this.io.to(this.name).emit('play',this.songs[++this.song_position]);
   }
 }
 module.exports = Game;
