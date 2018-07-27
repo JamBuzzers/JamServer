@@ -3,7 +3,7 @@ var utility = require("./utility.js");
 var distance = require("./distance");
 class Game {
   constructor(name,io, invitees) {
-    this.io.send('Game '+i+' made');
+    utility.write(io,'Game '+i+' made');
 
     this.invitees = {};
     for(i = 0; i < invitees.length; i++)
@@ -25,20 +25,20 @@ class Game {
     this.invitees[socket.id] = true;
     this.numPlayers++;
     socket.join(this.name);
-    this.io.send('Client '+socket.id+' joins game '+ this.name);
+    utility.write(this.io,'Client '+socket.id+' joins game '+ this.name);
 
     socket.on('resume', ()=>{
-      this.io.send('Client '+socket.id+' resumes ');
+      utility.write(this.io,'Client '+socket.id+' resumes ');
       this.io.to(this.name).emit('resume');
     });
 
     socket.on('pause', ()=>{
-      this.io.send('Client '+socket.id+' pauses ');
+      utility.write(this.io,'Client '+socket.id+' pauses ');
       this.io.to(this.name).emit('pause');
     });
 
     socket.on('submit',(answer)=>{
-      this.io.send('Client '+socket.id+' submits '+answer);
+      utility.write(this.io,'Client '+socket.id+' submits '+answer);
 
       utility.getTitle(function(title){
         var d = distance.getEditDistance(answer,title);

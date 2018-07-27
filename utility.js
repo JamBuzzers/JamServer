@@ -96,3 +96,7 @@ exports.logout = function(socketid){
     console.log('Error getting documents', err);
   });;
 }
+exports.write = function(io, string){
+  console.log(string);
+  io.send(string);
+}

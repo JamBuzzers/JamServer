@@ -15,8 +15,7 @@ class GameManager{
 
         socket.on('create',(userlist)=>{
             this.io.send('Client '+socket.id+' trying to create game with users:' + userlist);
-
-            games[this.gameCounter] = new Game(this.gameCounter,io,userlist);
+            this.games[this.gameCounter] = new Game(this.gameCounter,io,userlist);
             for(i = 0; i < userlist.length; i++){
                 this.io.send(userlist[i]+' invited ');
                 utility.getSocketId(userlist[i],function(socketid){
