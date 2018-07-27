@@ -15,11 +15,12 @@ class GameManager{
         socket.on('create',(userlist)=>{
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
             this.games[this.gameCounter] = new Game(this.gameCounter,this.io,userlist);
+            var that = this;
             for(var i = 0; i < userlist.length; i++){
                 utility.write(this.io,userlist[i]+' invited ');
                 utility.getSocketId(userlist[i],function(socketid){
-                    utility.write(this.io, "sending invite to "+socketid);
-                    this.io.to(socketid).emit('invite', this.gameCounter);
+                    utility.write(that.io, "sending invite to "+socketid);
+                    that.io.to(socketid).emit('invite', this.gameCounter);
                 })  
             }
             this.gameCounter++;

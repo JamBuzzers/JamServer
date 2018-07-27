@@ -7,10 +7,11 @@ class Game {
 
     this.invitees = {};
 
+    var that = this;
     for(var i = 0; i < invitees.length; i++)
     {
       utility.getSocketId(invitees[i],function(socketid){
-        this.invitees[socketid] = false;
+        that.invitees[socketid] = false;
       })
     }
     this.name = name;
@@ -41,16 +42,16 @@ class Game {
 
     socket.on('submit',(answer)=>{
       utility.write(this.io,'Client '+socket.id+' submits '+answer);
-
+      var that = this;
       utility.getTitle(function(title){
         var d = distance.getEditDistance(answer,title);
         if(d > title.length / 5)
         {
             socket.emit("correct");
-            this.nextSong();
+            that.nextSong();
         }
         else{
-          this.resume();
+          that.resume();
         }
       })
     });
