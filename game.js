@@ -19,7 +19,7 @@ class Game {
     this.io = io;
     this.songs = utility.getPlaylist();
     this.numPlayers = 0;
-    utility.write(io,'Game '+name+' made');
+    utility.write(io,'Game '+name+' made:' + this);
   }
   addUser(socket){
     if(this.invitees[socket.id]){
