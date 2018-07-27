@@ -17,13 +17,15 @@ class GameManager{
             games[this.gameCounter] = new Game(this.gameCounter,io,userlist);
             for(i = 0; i < userlist.length; i++){
                 this.io.send(userlist[i]+' invited ');
-                this.io.to(userlist[i]).emit('invite', this.gameCounter);
+                utility.getSocketId(userlist[i],function(socketid){
+                    this.io.to(socketid).emit('invite', this.gameCounter);
+                })  
             }
             this.gameCounter++;
         })
         socket.on('accept',(gameid)=>{
             if(gameid in games){
-                this.io.send('Client '+socket.id+'accepts gameid '+gameid );
+                this.io.send('Client '+socket.id+'accepts gameid '+gameid);
                 game[gameid].addUser(socket);
             }
         })

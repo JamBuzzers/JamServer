@@ -2,11 +2,13 @@
 var utility = require("./utility.js");
 var distance = require("./distance");
 class Game {
-  constructor(name,io, socketids) {
+  constructor(name,io, invitees) {
     this.invitees = {};
     for(i = 0; i < invitees.length; i++)
     {
-      this.invitees[invitees[i]] = false;
+      utility.getSocketId(invitees[i],function(socketid){
+        this.invitees[socketid] = false;
+      })
     }
     this.name = name;
     this.song_position = 0;
