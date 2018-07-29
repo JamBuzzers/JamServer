@@ -98,6 +98,18 @@ exports.logout = function(socketid){
     console.log('Error getting documents', err);
   });;
 }
+exports.getToken = function(socketid, callback){
+  var userRef = db.collection('users')
+  var user = userRef.where('socket_id','==',socketid).get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      callback(doc.data().token);
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });;
+}
 exports.write = function(io, string){
   console.log(string);
   io.emit('message',string);
