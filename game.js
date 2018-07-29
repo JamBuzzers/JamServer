@@ -62,7 +62,12 @@ class Game {
   }
   
   nextSong(){
-    this.io.to(this.name).emit('play',this.songs[++this.song_position]);
+    if(this.song_position < this.songs.length-1){
+      this.io.to(this.name).emit('play',this.songs[++this.song_position]);
+    }
+    else{
+      this.io.to(this.name).emit('message', "game over");
+    }
   }
 }
 module.exports = Game;

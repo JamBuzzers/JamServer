@@ -31,7 +31,10 @@ class GameManager{
                 utility.write(this.io,'Client '+socket.id+'accepts gameid '+gameid);
                 this.games[gameid].addUser(socket);
             }
-        })
+            else{
+                utility.write(this.io,'Client gameid '+gameid+' does not exist in ' + this.games);
+            }
+        });
     }
 }
 module.exports = GameManager;
