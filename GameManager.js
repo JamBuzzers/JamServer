@@ -21,6 +21,7 @@ class GameManager{
                 utility.getSocketId(userlist[i],function(socketid){
                     utility.write(that.io, "sending invite to "+socketid);
                     that.io.to(socketid).emit('invite', that.gameCounter);
+                    that.io.to(socketid).emit('message', "invited you to "+that.gameCounter);
                 })  
             }
             this.gameCounter++;
