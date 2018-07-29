@@ -59,11 +59,12 @@ class Game {
           }
         })
       });
-      if(this.numPlayers == Object.keys(this.invitees).length)
-      {
-        this.io.to(this.name).emit('play',this.songs[this.song_position]);
-      }
+    
     });
+    if(this.numPlayers == Object.keys(this.invitees).length)
+    {
+      this.io.to(this.name).emit('play',this.songs[this.song_position]);
+    }
   }
   
   nextSong(){
