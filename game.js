@@ -44,13 +44,16 @@ class Game {
       utility.write(this.io,'Client '+socket.id+' submits '+answer);
       var that = this;
       utility.getTitle(function(title){
+        utility.write(that.io,"title is "+title);
         var d = distance.getEditDistance(answer,title);
         if(d > title.length / 5)
         {
             socket.emit("correct");
+            utility.write(that.io,'Client '+socket.id+ 'is correct');
             that.nextSong();
         }
         else{
+          utility.write(that.io,'Client '+socket.id+ 'is incorrect');
           that.resume();
         }
       })
