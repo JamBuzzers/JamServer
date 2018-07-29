@@ -55,7 +55,8 @@ class Game {
           }
           else{
             utility.write(that.io,'Client '+socket.id+ 'is incorrect');
-            that.resume();
+            utility.write(that.io,'Client '+socket.id+' resumes ');
+            that.io.to(that.name).emit('resume');
           }
         })
       });
