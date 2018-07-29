@@ -22,9 +22,10 @@ class GameManager{
                     utility.write(that.io, "sending invite to "+socketid);
                     that.io.to(socketid).emit('invite', that.gameCounter);
                     that.io.to(socketid).emit('message', "invited you to "+that.gameCounter);
+                    that.gameCounter++;
+
                 })  
             }
-            this.gameCounter++;
         })
         socket.on('accept',(gameid)=>{
             if(gameid in this.games){
@@ -32,7 +33,7 @@ class GameManager{
                 this.games[gameid].addUser(socket);
             }
             else{
-                utility.write(this.io,'Client gameid '+gameid+' does not exist in ' + this.games);
+                utility.write(this.io,'gameid '+gameid+' does not exist in ' + this.games);
             }
         });
     }
