@@ -47,7 +47,7 @@ class Game {
         utility.getTitle(that.songs[that.song_position],token, function(title){
           utility.write(that.io,"title is "+title);
           var d = distance.getEditDistance(answer,title);
-          if(d > title.length / 5)
+          if(d < title.length / 5)
           {
               socket.emit("correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');

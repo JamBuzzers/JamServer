@@ -83,7 +83,7 @@ exports.getSocketId = function(userid, callback){
 exports.saveGame = function(id, users){
   var docRef = db.collection('games').doc(id);
     docRef.set({
-      players:playerss
+      players:users
     });
 }
 exports.logout = function(socketid){
@@ -91,12 +91,11 @@ exports.logout = function(socketid){
   var user = userRef.where('socket_id','==',socketid).get()
   .then(snapshot => {
     snapshot.forEach(doc => {
-      doc.update({ active: false });
+      var uref = db.collection('users').doc(doc.id);
+      uref.update({active : false});
+  
     });
-  })
-  .catch(err => {
-    console.log('Error getting documents', err);
-  });;
+  });
 }
 exports.getToken = function(socketid, callback){
   var userRef = db.collection('users')
