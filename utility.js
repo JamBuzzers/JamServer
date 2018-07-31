@@ -3,6 +3,9 @@ const express = require('express');
 const socketIO = require('socket.io');
 var admin = require('firebase-admin');
 var serviceAccount = require('./what-s-that-jam-firebase-adminsdk-4pblj-97afb9e634.json');
+var async = require("async");
+
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -58,9 +61,10 @@ request(options, callback);
 exports.saveuser = function(token, socket_id){
   exports.getProfile(token,function(name,id){
     var docRef = db.collection('users').doc(id);
+    lower_name = name.toLowerCase();
     docRef.set({
       token:token,
-      name:name,
+      name:lower_name,
       socket_id:socket_id,
       active:true
     });
@@ -93,7 +97,6 @@ exports.logout = function(socketid){
     snapshot.forEach(doc => {
       var uref = db.collection('users').doc(doc.id);
       uref.update({active : false});
-  
     });
   });
 }
@@ -112,4 +115,75 @@ exports.getToken = function(socketid, callback){
 exports.write = function(io, string){
   console.log(string);
   io.emit('message',string);
+}
+exports.getPopular = function(userid, call){
+  var range = ["short","medium","long"];
+  var userRef = db.collection('users').doc(userid);
+  
+
+  var getDoc = userRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      var songs_ids = [];
+      
+   
+      async.forEach(range, function(ran,callback){
+        var headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+doc.data().token
+      };
+          var options = {
+            url: 'https://api.spotify.com/v1/me/top/tracks?time_range='+ran+'_term&limit=50&offset=0',
+            headers: headers
+        };
+        function cb(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var info = JSON.parse(body);
+            for(var i = 0;i < info.items.length; i++){
+              songs_ids.push(info.items[i].id)
+            }
+            callback();
+          }
+          else{
+            console.log(response.statusCode);
+          }
+        }
+        request(options, cb);
+      },function(err){
+        console.log("final");
+        console.log(songs_ids.length);
+        call(songs_ids)
+      });
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+}
+exports.makePlaylist = function(userlist, call){
+  var userlists = [];
+  async.forEach(userlist, function(user,callback){
+    exports.getPopular(user,function(songs){
+      userlists.push(songs);
+      callback();
+    })
+  },function(err){
+    var list= [];
+    for(var i = 0; i < userlists[0].length; i++)
+    {
+      var inall = true;
+      for(var j = 0; j <userlists.length;j++){
+        if( !userlists[j].includes(userlists[0][i])){
+          inall = false;
+        }
+      }
+      if(inall){
+        list.push(userlists[0][i])
+      }
+    }
+    call(list);
+  })
 }
