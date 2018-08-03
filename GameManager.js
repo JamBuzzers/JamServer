@@ -20,7 +20,7 @@ class GameManager{
             var that = this;
 
             async.forEach(userlist, function(user,callback){
-                utility.write(this.io,user+' invited ');
+                utility.write(that.io,user+' invited ');
                 utility.getSocketId(user,function(socketid){
                     utility.write(that.io, "sending invite to "+socketid);
                     that.io.to(socketid).emit('invite', that.gameCounter);
