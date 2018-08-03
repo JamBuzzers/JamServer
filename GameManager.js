@@ -1,5 +1,7 @@
 var Game = require( './game.js');
 var utility = require("./utility");
+var async = require("async");
+
 
 class GameManager{
     constructor(io) {
@@ -16,16 +18,18 @@ class GameManager{
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
             this.games[this.gameCounter] = new Game(this.gameCounter,this.io,userlist);
             var that = this;
-            for(var i = 0; i < userlist.length; i++){
-                utility.write(this.io,userlist[i]+' invited ');
-                utility.getSocketId(userlist[i],function(socketid){
+
+            async.forEach(userlist, function(user,callback){
+                utility.write(this.io,user+' invited ');
+                utility.getSocketId(user,function(socketid){
                     utility.write(that.io, "sending invite to "+socketid);
                     that.io.to(socketid).emit('invite', that.gameCounter);
                     that.io.to(socketid).emit('message', "invited you to "+that.gameCounter);
-                    that.gameCounter++;
-
-                })  
-            }
+                    callback();
+                }) 
+            },function(err){
+                that.gameCounter++;
+            });
         })
         socket.on('accept',(gameid)=>{
             if(gameid in this.games){
