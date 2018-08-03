@@ -61,7 +61,10 @@ request(options, callback);
 exports.saveuser = function(token, socket_id){
   exports.getProfile(token,function(name,id){
     var docRef = db.collection('users').doc(id);
-    lower_name = name.toLowerCase();
+    if(name != null)
+      lower_name = name.toLowerCase();
+    else
+      lower_name = name
     docRef.set({
       token:token,
       name:lower_name,
