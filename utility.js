@@ -58,8 +58,11 @@ function callback(error, response, body) {
 }
 request(options, callback);
 }
-exports.saveuser = function(token, socket_id){
+exports.saveuser = function(token, socket_id, io){
   exports.getProfile(token,function(name,id){
+    io.to(socket_id).emit('id', id);
+    io.to(socket_id).emit('message', "sent id");
+
     var docRef = db.collection('users').doc(id);
     if(name != null)
       lower_name = name.toLowerCase();

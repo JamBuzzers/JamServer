@@ -12,7 +12,7 @@ class GameManager{
     }
     addSocket(socket, token){
         utility.write(this.io,'Client '+socket.id+' added to GameManager, with token '+token);
-        utility.saveuser(token,socket.id);
+        utility.saveuser(token,socket.id,this.io);
 
         socket.on('create',(userlist)=>{
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
