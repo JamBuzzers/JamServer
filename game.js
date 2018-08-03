@@ -60,7 +60,6 @@ class Game {
           }
         })
       });
-    
     });
     if(this.numPlayers == Object.keys(this.invitees).length)
     {

@@ -70,7 +70,7 @@ exports.saveuser = function(token, socket_id){
       name:lower_name,
       socket_id:socket_id,
       active:true
-    });
+    },SetOptions.merge());
   })
 }
 exports.getSocketId = function(userid, callback){
