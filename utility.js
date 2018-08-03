@@ -64,7 +64,7 @@ exports.saveuser = function(token, socket_id){
     if(name != null)
       lower_name = name.toLowerCase();
     else
-      lower_name = name
+      lower_name = id
     docRef.set({
       token:token,
       name:lower_name,
