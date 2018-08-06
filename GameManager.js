@@ -15,8 +15,9 @@ class GameManager{
         utility.saveuser(token,socket.id,this.io);
 
         socket.on('create',(userlist)=>{
-            if(userlist == null)
+            if(userlist == null || userlist.length == 0){
                 return
+            }
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
             this.games[this.gameCounter] = new Game(this.gameCounter,this.io,userlist);
             var that = this;
