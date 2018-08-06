@@ -64,7 +64,7 @@ class Game {
             utility.write(that.io,'Client '+socket.id+' resumes ');
             that.io.to(that.name).emit('resume');
           }
-          keys = Object.keys(this.invitees);
+          keys = Object.keys(that.invitees);
           for(var i = 0; i <k.length; i++)
             {
               that.io.to(k[i]).emit("score", score[k[i]]);
