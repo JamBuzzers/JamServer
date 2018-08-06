@@ -56,7 +56,7 @@ class Game {
               socket.broadcast.to(that.name).emit("result",socket.id+ " was correct");
               socket.emit("result", "you were correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');
-              that.nextSong();
+              setTimeout(that.nextSong,2000);
           }
           else{
             socket.broadcast.to(that.name).emit("result",socket.id+ " was incorrect");
@@ -84,7 +84,18 @@ class Game {
       this.io.to(this.name).emit('play',this.songs[++this.song_position]);
     }
     else{
-      this.io.to(this.name).emit('message', "game over");
+       var k = Object.keys(this.invitees);
+       const winner = Object.keys(k).reduce(function(a, b){ return k[a] > k[b] ? a : b });
+          for(var i = 0; i <k.length; i++)
+            {
+              if(k[i] == winner)
+              {
+                this.io.to(k[i]).emit("final score", this.score[k[i]],1);
+              }
+              else{
+                this.io.to(k[i]).emit("final score", this.score[k[i]],0);
+              }
+            } 
     }
   }
 }
