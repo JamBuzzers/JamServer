@@ -68,7 +68,7 @@ class Game {
           var k = Object.keys(that.invitees);
           for(var i = 0; i <k.length; i++)
             {
-              that.io.to(k[i]).emit("score", score[k[i]]);
+              that.io.to(k[i]).emit("score", that.score[k[i]]);
             } 
         })
       });
