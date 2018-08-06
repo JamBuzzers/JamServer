@@ -23,7 +23,7 @@ class GameManager{
                 utility.write(that.io,user+' invited ');
                 utility.getSocketId(user,function(socketid){
                     utility.write(that.io, "sending invite to "+socketid);
-                    that.io.to(socketid).emit('invite', that.gameCounter);
+                    that.io.to(socketid).emit('invite', that.gameCounter, user);
                     that.io.to(socketid).emit('message', "invited you to "+that.gameCounter);
                     callback();
                 }) 
