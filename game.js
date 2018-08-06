@@ -79,21 +79,21 @@ class Game {
     }
   }
   
-  nextSong(){
-    if(this.song_position < this.songs.length-1){
-      this.io.to(this.name).emit('play',this.songs[++this.song_position]);
+  nextSong(that){
+    if(that.song_position < that.songs.length-1){
+      that.io.to(that.name).emit('play',that.songs[++that.song_position]);
     }
     else{
-       var k = Object.keys(this.invitees);
+       var k = Object.keys(that.invitees);
        const winner = Object.keys(k).reduce(function(a, b){ return k[a] > k[b] ? a : b });
           for(var i = 0; i <k.length; i++)
             {
               if(k[i] == winner)
               {
-                this.io.to(k[i]).emit("final score", this.score[k[i]],1);
+                that.io.to(k[i]).emit("final score", that.score[k[i]],1);
               }
               else{
-                this.io.to(k[i]).emit("final score", this.score[k[i]],0);
+                that.io.to(k[i]).emit("final score", that.score[k[i]],0);
               }
             } 
     }
