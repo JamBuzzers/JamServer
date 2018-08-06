@@ -12,12 +12,14 @@ class Game {
     {
       utility.getSocketId(invitees[i],function(socketid){
         that.invitees[socketid] = false;
+        that.score[socketid] = 0;
       })
     }
     this.name = name;
     this.song_position = 0;
     this.io = io;
     this.songs = utility.getPlaylist();
+    this.score = {};
     this.numPlayers = 0;
     utility.write(io,'Game '+name+' made:' + this);
   }
@@ -34,7 +36,7 @@ class Game {
       utility.write(this.io,'Client '+socket.id+' resumes ');
       this.io.to(this.name).emit('resume');
     });
-
+    //Now we're reusing invitees to keep track of answers
     socket.on('pause', ()=>{
       utility.write(this.io,'Client '+socket.id+' pauses ');
       this.io.to(this.name).emit('pause');
@@ -49,15 +51,24 @@ class Game {
           var d = distance.getEditDistance(answer,title);
           if(d < title.length / 5)
           {
-              socket.emit("correct");
+              that.score[socket]++;
+              socket.broadcast.to(that.name).emit("result",socket.id+ " was correct");
+              socket.emit("result", "you were correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');
               that.nextSong();
           }
           else{
+            socket.broadcast.to(that.name).emit("result",socket.id+ " was incorrect");
+            socket.emit("result", "you were incorrect");
             utility.write(that.io,'Client '+socket.id+ 'is incorrect');
             utility.write(that.io,'Client '+socket.id+' resumes ');
             that.io.to(that.name).emit('resume');
           }
+          keys = Object.keys(this.invitees);
+          for(var i = 0; i <k.length; i++)
+            {
+              that.io.to(k[i]).emit("score", score[k[i]]);
+            } 
         })
       });
     });
