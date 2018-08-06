@@ -6,6 +6,8 @@ class Game {
     utility.write(io,'Game '+name+' is being made');
 
     this.invitees = {};
+    this.score = {};
+
 
     var that = this;
     for(var i = 0; i < invitees.length; i++)
@@ -19,7 +21,6 @@ class Game {
     this.song_position = 0;
     this.io = io;
     this.songs = utility.getPlaylist();
-    this.score = {};
     this.numPlayers = 0;
     utility.write(io,'Game '+name+' made:' + this);
   }
