@@ -18,6 +18,7 @@ class GameManager{
             if(userlist == null || userlist.length == 0){
                 return
             }
+            utility.write(this.io,"userlist is length "+userlist.length);
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
             this.games[this.gameCounter] = new Game(this.gameCounter,this.io,userlist);
             var that = this;

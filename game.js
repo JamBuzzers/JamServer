@@ -87,6 +87,7 @@ class Game {
     else{
        var k = Object.keys(that.invitees);
        const winner = Object.keys(k).reduce(function(a, b){ return k[a] > k[b] ? a : b });
+       console.log("Winner is "+ winner);
           for(var i = 0; i <k.length; i++)
             {
               if(k[i] == winner)
