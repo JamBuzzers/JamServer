@@ -16,7 +16,14 @@ class GameManager{
 
         socket.on('create',(userlist)=>{
             if(userlist == null || userlist.length == 0){
-                return
+                return;
+            }
+            for(var i = 0; i < userlist.length;i++)
+            {
+                if(userlist[i]==null)
+                    {
+                        return;
+                    }
             }
             utility.write(this.io,"userlist is length "+userlist.length);
             utility.write(this.io,'Client '+socket.id+' trying to create game with users:' + userlist);
