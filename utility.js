@@ -15,7 +15,7 @@ var db = admin.firestore();
 
 
 exports.getPlaylist = function(user1, user2){
-  var answer = ["0aBsXZLJDvn0QWfcIqBXq8","6n4U3TlzUGhdSFbUUhTvLP","6KBYefIoo7KydImq1uUQlL"];
+  var answer = ["5ubwXXOsH9bUhZsQ0Cybha","6n4U3TlzUGhdSFbUUhTvLP","6KBYefIoo7KydImq1uUQlL"];
   return answer;
 }
 exports.getTitle = function(id, token, call){
