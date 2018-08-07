@@ -53,7 +53,7 @@ class Game {
           var d = distance.getEditDistance(answer,title);
           if(d < title.length / 5)
           {
-              that.score[socket]++;
+              that.score[socket.id]++;
               socket.broadcast.to(that.name).emit("result",socket.id+ " was correct");
               socket.emit("result", "you were correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');

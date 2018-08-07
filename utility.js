@@ -15,7 +15,7 @@ var db = admin.firestore();
 
 
 exports.getPlaylist = function(user1, user2){
-  var answer = ["2cEnYJKLSZPH7MFSk6C05c","3EApebexZ7YqDIqw2EMTDh","3PdgIdRXJjgxfOr7slldel"];
+  var answer = ["0aBsXZLJDvn0QWfcIqBXq8","6n4U3TlzUGhdSFbUUhTvLP","6KBYefIoo7KydImq1uUQlL"];
   return answer;
 }
 exports.getTitle = function(id, token, call){
@@ -77,6 +77,7 @@ exports.saveuser = function(token, socket_id, io){
   })
 }
 exports.getSocketId = function(userid, callback){
+    console.log("trying to get socket for "+userid)
     var userRef = db.collection('users').doc(userid);
     var getDoc = userRef.get()
     .then(doc => {
@@ -159,8 +160,8 @@ exports.getPopular = function(userid, call){
         }
         request(options, cb);
       },function(err){
-        console.log("final");
-        console.log(songs_ids.length);
+        //console.log("final");
+        //console.log(songs_ids.length);
         call(songs_ids)
       });
     }
