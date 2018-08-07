@@ -28,6 +28,7 @@ class Game {
     if(this.invitees[socket.id]){
       return;
     }
+    
     this.invitees[socket.id] = true;
     this.numPlayers++;
     socket.join(this.name);
@@ -56,7 +57,7 @@ class Game {
               socket.broadcast.to(that.name).emit("result",socket.id+ " was correct");
               socket.emit("result", "you were correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');
-              setTimeout(that.nextSong,2000,that);
+              setTimeout(that.nextSong,5000,that);
           }
           else{
             socket.broadcast.to(that.name).emit("result",socket.id+ " was incorrect");
