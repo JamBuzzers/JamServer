@@ -23,6 +23,7 @@ class Game {
       })
     }
     this.timer =100;
+    this.num_answers = 0;
     this.name = name;
     this.song_position = 0;
     this.io = io;
@@ -43,6 +44,12 @@ class Game {
 
     //Now we're reusing invitees to keep track of answers
     socket.on('pause', ()=>{
+      if(this.invitees[socket.id])
+      {
+        return;
+      }
+      this.invitees[socket.id] = true;
+      this.num_answers++;
       utility.write(this.io,'Client '+socket.id+' pauses ');
       this.io.to(this.name).emit('pause');
       clearInterval(this.WinnerCountdown);
@@ -69,6 +76,11 @@ class Game {
             socket.emit("result", "you were incorrect");
             utility.write(that.io,'Client '+socket.id+ 'is incorrect');
             //utility.write(that.io,'Client '+socket.id+' resumes ');
+            if(that.num_answers == Object.keys(that.invitees).length )
+            {
+              that.nextSong();
+              return;
+            }
             that.io.to(that.name).emit('resume');
             that.startTimer();
           }
@@ -82,15 +94,19 @@ class Game {
     });
     if(this.numPlayers == Object.keys(this.invitees).length)
     {
-      this.io.to(this.name).emit('play',this.songs[this.song_position]);
-      this.startTimer();
+      this.nextSong();
     }
   }
-  
   nextSong(that){
-    if(that.song_position < that.songs.length-1){
-      that.io.to(that.name).emit('play',that.songs[++that.song_position]);
-      that.timer = 30;
+    if(that.song_position < that.songs.length){
+      that.num_answers = 0;
+      var k = Object.keys(that.invitees);
+      for(var i = 0; i <k.length; i++)
+      {
+              that.invitees[k]=false;
+      } 
+      that.io.to(that.name).emit('play',that.songs[that.song_position++]);
+      that.timer = 10;
       that.startTimer();
     }
     else{
