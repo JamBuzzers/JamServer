@@ -129,7 +129,7 @@ class Game {
       names.push(this.socket_to_name[k[i]]);
       scores.push(this.socket_to_name[scores[k[i]]]);
     }
-    this.io.to(that.name).emit('next round', names,scores);
+    this.io.to(this.name).emit('next round', names,scores);
   }
 }
 module.exports = Game;
