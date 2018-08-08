@@ -17,9 +17,11 @@ class Game {
         that.score[socketid] = 0;
       })
     }
+    this.timer =100;
     this.name = name;
     this.song_position = 0;
     this.io = io;
+    this.WinnerCountdown = null;
     this.songs = utility.getPlaylist();
     this.numPlayers = 0;
     utility.write(io,'Game '+name+' made:' + this);
@@ -37,11 +39,13 @@ class Game {
     socket.on('resume', ()=>{
       utility.write(this.io,'Client '+socket.id+' resumes ');
       this.io.to(this.name).emit('resume');
+      this.startTimer();
     });
     //Now we're reusing invitees to keep track of answers
     socket.on('pause', ()=>{
       utility.write(this.io,'Client '+socket.id+' pauses ');
       this.io.to(this.name).emit('pause');
+      clearInterval(this.WinnerCountdown);
     });
 
     socket.on('submit',(answer)=>{
@@ -84,6 +88,8 @@ class Game {
   nextSong(that){
     if(that.song_position < that.songs.length-1){
       that.io.to(that.name).emit('play',that.songs[++that.song_position]);
+      this.timer = 30;
+      this.startTimer();
     }
     else{
        var k = Object.keys(that.invitees);
@@ -102,13 +108,12 @@ class Game {
     }
   }
   startTimer(){
-    var counter = 1000;
     var that = this;
-    var WinnerCountdown = setInterval(function(scope){
-      that.io.to(that.name).emit('timer', counter);
-      counter--;
-      if (counter === 0) {
-        clearInterval(WinnerCountdown);
+    this.WinnerCountdown = setInterval(function(scope){
+      that.io.to(that.name).emit('timer', that.timer);
+      that.timer--;
+      if (that.timer === 0) {
+        clearInterval(this.WinnerCountdown);
       }
     }, 1000);
   }
