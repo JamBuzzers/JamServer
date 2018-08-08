@@ -133,6 +133,7 @@ class Game {
       that.timer--;
       if (that.timer === 0) {
         clearInterval(that.WinnerCountdown);
+        nextSong(that);
       }
     }, 1000);
   }
