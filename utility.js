@@ -91,6 +91,21 @@ exports.getSocketId = function(userid, callback){
       console.log('Error getting document', err);
     });
 }
+exports.getById = function(userid, callback){
+  console.log("trying to get doc for "+userid)
+  var userRef = db.collection('users').doc(userid);
+  var getDoc = userRef.get()
+  .then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+    } else {
+      callback(doc.data())
+    }
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+}
 exports.saveGame = function(id, users){
   var docRef = db.collection('games').doc(id);
     docRef.set({
