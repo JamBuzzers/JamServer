@@ -111,9 +111,9 @@ class Game {
     var that = this;
     this.WinnerCountdown = setInterval(function(scope){
       that.io.to(that.name).emit('timer', that.timer);
-      that.timer--;
+      that.timer--;i
       if (that.timer === 0) {
-        clearInterval(this.WinnerCountdown);
+        clearInterval(that.WinnerCountdown);
       }
     }, 1000);
   }
