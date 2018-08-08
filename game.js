@@ -109,6 +109,7 @@ class Game {
   }
   startTimer(){
     var that = this;
+    utility.write(this.io,"starting timer at "+this.timer);
     this.WinnerCountdown = setInterval(function(scope){
       that.io.to(that.name).emit('timer', that.timer);
       that.timer--;
