@@ -7,14 +7,19 @@ class Game {
 
     this.invitees = {};
     this.score = {};
-
+    this.socket_to_name
 
     var that = this;
     for(var i = 0; i < invitees.length; i++)
     {
-      utility.getSocketId(invitees[i],function(socketid){
+      /*utility.getSocketId(invitees[i],function(socketid){
         that.invitees[socketid] = false;
         that.score[socketid] = 0;
+      })*/
+      utility.getById(invitees[i],function(data){
+        that.invitees[data.socket_id] = false;
+        that.score[data.socket_id] = 0;
+        that.socket_to_name[data.socket_id] = data.name;
       })
     }
     this.timer =100;
@@ -36,7 +41,6 @@ class Game {
     socket.join(this.name);
     utility.write(this.io,'Client '+socket.id+' joins game '+ this.name);
 
-    
     //Now we're reusing invitees to keep track of answers
     socket.on('pause', ()=>{
       utility.write(this.io,'Client '+socket.id+' pauses ');
@@ -89,8 +93,8 @@ class Game {
       that.startTimer();
     }
     else{
-       var k = Object.keys(that.invitees);
-       const winner = Object.keys(k).reduce(function(a, b){ return k[a] > k[b] ? a : b });
+       var k = Object.keys(that.score);
+       const winner = k.reduce(function(a, b){ return score[a] > score[b] ? a : b });
        console.log("Winner is "+ winner);
           for(var i = 0; i <k.length; i++)
             {
@@ -114,6 +118,17 @@ class Game {
         clearInterval(that.WinnerCountdown);
       }
     }, 1000);
+  }
+  nextRound(){
+    var k = Object.keys(that.score);
+    var names = [];
+    var scores = []
+    for(var i = 0; i <k.length; i++)
+    {
+      names.push(this.socket_to_name[k[i]]);
+      scores.push(this.socket_to_name[scores[k[i]]]);
+    }
+    this.io.to(that.name).emit('next round', names,scores);
   }
 }
 module.exports = Game;
