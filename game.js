@@ -78,7 +78,7 @@ class Game {
             //utility.write(that.io,'Client '+socket.id+' resumes ');
             if(that.num_answers == Object.keys(that.invitees).length )
             {
-              that.nextSong();
+              that.nextSong(that);
               return;
             }
             that.io.to(that.name).emit('resume');
@@ -94,7 +94,7 @@ class Game {
     });
     if(this.numPlayers == Object.keys(this.invitees).length)
     {
-      this.nextSong();
+      this.nextSong(this);
     }
   }
   nextSong(that){
