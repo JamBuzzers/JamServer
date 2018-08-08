@@ -7,7 +7,7 @@ class Game {
 
     this.invitees = {};
     this.score = {};
-    this.socket_to_name
+    this.socket_to_name = {};
 
     var that = this;
     for(var i = 0; i < invitees.length; i++)
