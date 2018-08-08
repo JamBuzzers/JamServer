@@ -36,11 +36,7 @@ class Game {
     socket.join(this.name);
     utility.write(this.io,'Client '+socket.id+' joins game '+ this.name);
 
-    socket.on('resume', ()=>{
-      utility.write(this.io,'Client '+socket.id+' resumes ');
-      this.io.to(this.name).emit('resume');
-      this.startTimer();
-    });
+    
     //Now we're reusing invitees to keep track of answers
     socket.on('pause', ()=>{
       utility.write(this.io,'Client '+socket.id+' pauses ');
@@ -67,8 +63,9 @@ class Game {
             socket.broadcast.to(that.name).emit("result",socket.id+ " was incorrect");
             socket.emit("result", "you were incorrect");
             utility.write(that.io,'Client '+socket.id+ 'is incorrect');
-            utility.write(that.io,'Client '+socket.id+' resumes ');
+            //utility.write(that.io,'Client '+socket.id+' resumes ');
             that.io.to(that.name).emit('resume');
+            this.startTimer();
           }
           var k = Object.keys(that.invitees);
           for(var i = 0; i <k.length; i++)
@@ -88,7 +85,7 @@ class Game {
   nextSong(that){
     if(that.song_position < that.songs.length-1){
       that.io.to(that.name).emit('play',that.songs[++that.song_position]);
-      this.timer = 30;
+      that.timer = 30;
       that.startTimer();
     }
     else{
