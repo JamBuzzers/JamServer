@@ -127,7 +127,7 @@ class Game {
     for(var i = 0; i <k.length; i++)
     {
       names.push(this.socket_to_name[k[i]]);
-      scores.push(this.socket_to_name[scores[k[i]]]);
+      scores.push(this.scores[k[i]]);
     }
     this.io.to(this.name).emit('next round', names,scores);
   }
