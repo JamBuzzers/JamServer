@@ -65,7 +65,7 @@ class Game {
             utility.write(that.io,'Client '+socket.id+ 'is incorrect');
             //utility.write(that.io,'Client '+socket.id+' resumes ');
             that.io.to(that.name).emit('resume');
-            this.startTimer();
+            that.startTimer();
           }
           var k = Object.keys(that.invitees);
           for(var i = 0; i <k.length; i++)
