@@ -89,7 +89,7 @@ class Game {
     if(that.song_position < that.songs.length-1){
       that.io.to(that.name).emit('play',that.songs[++that.song_position]);
       this.timer = 30;
-      this.startTimer();
+      that.startTimer();
     }
     else{
        var k = Object.keys(that.invitees);
