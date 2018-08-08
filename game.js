@@ -121,7 +121,7 @@ class Game {
     }, 1000);
   }
   nextRound(){
-    var k = Object.keys(that.score);
+    var k = Object.keys(this.score);
     var names = [];
     var scores = []
     for(var i = 0; i <k.length; i++)
