@@ -61,7 +61,7 @@ class Game {
               socket.broadcast.to(that.name).emit("result",socket.id+ " was correct");
               socket.emit("result", "you were correct");
               utility.write(that.io,'Client '+socket.id+ 'is correct');
-              this.nextRound();
+              that.nextRound();
               setTimeout(that.nextSong,5000,that);
           }
           else{
