@@ -111,7 +111,7 @@ class Game {
     var that = this;
     this.WinnerCountdown = setInterval(function(scope){
       that.io.to(that.name).emit('timer', that.timer);
-      that.timer--;i
+      that.timer--;
       if (that.timer === 0) {
         clearInterval(that.WinnerCountdown);
       }
