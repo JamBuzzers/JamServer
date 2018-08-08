@@ -77,6 +77,7 @@ class Game {
     if(this.numPlayers == Object.keys(this.invitees).length)
     {
       this.io.to(this.name).emit('play',this.songs[this.song_position]);
+      this.startTimer();
     }
   }
   
@@ -99,6 +100,17 @@ class Game {
               }
             } 
     }
+  }
+  startTimer(){
+    var counter = 1000;
+    var that = this;
+    var WinnerCountdown = setInterval(function(scope){
+      that.io.to(that.name).emit('timer', counter);
+      counter--;
+      if (counter === 0) {
+        clearInterval(WinnerCountdown);
+      }
+    }, 1000);
   }
 }
 module.exports = Game;
